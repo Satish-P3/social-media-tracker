@@ -49,6 +49,15 @@ const Dashboard = () => {
         }
     };
 
+    const deleteData = async(id) => {
+        try{
+            await axios.delete(`http://localhost:3000/api/track/${id}`);
+            fetchData(); //refresh the data after deletion.
+        }catch(error){
+            console.error('Error deleting data.',error);
+        }
+    };
+
     // const addTrackingData = (newData) => {
     //     setTrackingData([...trackingData, newData]);
     // };
@@ -61,6 +70,7 @@ const Dashboard = () => {
                 {trackingData.map((entry, index) => (
                     <li key={index}>
                         Platform : {entry.platform} | TimeSpent : {entry.timeSpent} minutes | Date : {new Date(entry.date).toLocaleDateString()}
+                        <button onClick={()=>deleteData(entry._id)}>Delete</button>
                     </li>
                 ))}
             </ul>
